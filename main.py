@@ -193,7 +193,8 @@ def birthdays(_, book):
 
 def main():
     book = AddressBook()
-    print("Welcome to the assistant bot!")
+    ui = ConsoleUI()
+    ui.show_message("Welcome to the assistant bot!")
 
     while True:
         user_input = input("Enter a command: ")
@@ -216,3 +217,23 @@ def main():
             print(add_birthday(args, book))
         elif command == "show-birthday":
             print(show_birthday(args, book))
+            from abc import ABC, abstractmethod
+
+class BaseUI(ABC):
+    @abstractmethod
+    def show_message(self, message: str):
+        pass
+
+    @abstractmethod
+    def show_contacts(self, contacts):
+        pass
+class ConsoleUI(BaseUI):
+    def show_message(self, message: str):
+        print(message)
+
+    def show_contacts(self, contacts):
+        if not contacts:
+            print("No contacts.")
+            return
+        for contact in contacts:
+            print(contact)
